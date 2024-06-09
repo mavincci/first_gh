@@ -1,0 +1,25 @@
+name: Deployment Action
+on: push
+
+jobs:
+    lint_stage:
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v4
+            - run: npm ci
+            - run: npm run lint
+    test_stage:
+        needs: lint_stage
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v4
+            - run: npm ci
+            - run: npm run test
+    deploy_stage:
+        needs: test_stage
+        runs-on: ubuntu-22.04
+        steps:
+            - uses: actions/checkout@v4
+            - run: npm ci
+            - run: npm run build
+            - run: echo "Fine by me man"
